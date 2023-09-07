@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block topbar %}
+{% include 'includes/topbar.html' with topbar_email=topbar_email topbar_phone_number=topbar_phone_number topbar_socials=topbar_socials %}
+{% endblock topbar %}
+
+{% block content %}
+  <section id="home">
+    <div class="hero-content" data-aos="fade-up">
+      <h2>{{intro_title}}</h2>
+      <div class="desc-hero px-4 ">
+        <p>
+          {{intro_description}}
+        </p>
+      </div>
+      <div>
+        <a href="#about" class="btn-get-started scrollto">Get Started</a>
+      </div>
+    </div>
+
+    <div class="hero-slider swiper">
+      <div class="swiper-wrapper">
+        {% for intro_image in intro_images %}
+        <div class="swiper-slide" style="background-image: url({{intro_image.bg_image.url}});"></div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </section>
+
+  <main id="main">
+    <section id="about">
+      <div class="container" data-aos="fade-up">
+        <div class="row">
+          <div class="col-lg-5 about-img d-flex justify-content-center align-items-center">
+            <img src="{{about_image.url}}" class="img-control"  alt="">
+          </div>
+          
+          <div class="col-lg-7 content d-flex justify-content-center align-items-center">
+            <div class="paragraf">
+              <h2 class="text-center">{{about_title}}</h2>
+              <p>{{about_description|linebreaksbr}}</p>
+              <h3 class="text-center">VISI</h3>
+              <p class="text-center">{{about_visi|linebreaksbr}}</p>
+              <h3 class="text-center">MISI</h3>
+              <p>{{about_misi|linebreaksbr}}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container" data-aos="fade-up">
+        <div class="section-header">
+          <h2>{{service_title}}</h2>
+          <p>
+            {{service_description}}
+          </p>
+        </div>
+      
+        <div class="row gy-4">
+          {% for service_menu_service in service_menu_services %}
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="box">
+              <div class="icon"><i class="{{service_menu_service.menu_icon}}"></i></div>
+              <h4 class="title"><a href="#Services">{{service_menu_service.menu_title}}</a></h4>
+              <p class="description">
+                {{service_menu_service.menu_description}}
+              </p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+    </section>
+
+    <section id="gallery" class="wow fadeInUp">
+      <div class="container container-desc">
+        <div class="section-header">
+          <h2>{{gallery_title}}</h2>
+          <p>
+            {{gallery_description}}
+          </p>
+        </div>
+      </div>
+
+      <div class="container-fluid container-galery">
+        <div class="row no-gutters">
+          {% for gallery_image in gallery_images %}
+          <div class="col-lg-3 col-md-4">
+            <div class="portfolio-item wow fadeInUp">
+              <a href="{{gallery_image.gallery_image}}" class="portfolio-popup">
+                <img src="{{gallery_image.gallery_image}}" alt="" />
+                <div class="portfolio-overlay">
+                  <div class="portfolio-info">
+                    <h2 class="wow fadeInUp">{{gallery_image.gallery_name}}</h2>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+
+      </div>
+      </div>
+    </section>
+
+    <section id="news">
+      <div class="container" data-aos="zoom-out">
+        <div class="row">
+          <div class="col-lg-9 text-center text-lg-start">
+            <h3 class="cta-title">{{lihat_berita_title}}</h3>
+            <p class="cta-text">{{lihat_berita_description}}</p>
+          </div>
+          <div class="col-lg-3 cta-btn-container text-center">
+            <a class="cta-btn align-middle" href="{% url 'news:news' %}">{{lihat_berita_button_name}}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container" data-aos="fade-up">
+        <div class="section-header">
+          <h2>{{contact_title}}</h2>
+          <p>{{contact_description}}</p>
+        </div>
+
+        <div class="row contact-info">
+          {% if contact_phone_number is None and contact_email is not None %}
+            <div class="col-md-6">
+                <div class="contact-address">
+                  <i class="bi bi-geo-alt"></i>
+                  <h3>Address</h3>
+                  <div class="col-lg-7 mx-auto">
+                    <address>{{contact_address}}</address>
+                  </div>
+                </div>
+            </div>
+          
+            <div class="col-md-6">
+              <div class="contact-email">
+                <i class="bi bi-envelope"></i>
+                <h3>Email</h3>
+                <p><a href="https://mail.google.com/mail/?view=cm&fs=1&to={{contact_email}}">{{contact_email}}</a></p>
+              </div>
+            </div>
+          {% elif contact_email is None and contact_phone_number is not None %}
+            <div class="col-md-6">
+              <div class="contact-address">
+                <i class="bi bi-geo-alt"></i>
+                <h3>Address</h3>
+                <div class="col-lg-7 mx-auto">
+                  <address>{{contact_address}}</address>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="contact-email">
+                <i class="bi bi-phone"></i>
+                <h3>Phone Number</h3>
+                <p><a href="tel:{{contact_phone_number}}">{{contact_phone_number}}</a></p>
+              </div>
+            </div>
+          {% elif contact_email is None and contact_phone_number is None %}
+          <div class="col-md-12">
+            <div class="contact-address">
+              <i class="bi bi-geo-alt"></i>
+              <h3>Address</h3>
+              <div class="col-lg-7 mx-auto">
+                <address>{{contact_address}}</address>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <div class="col-md-4">
+            <div class="contact-address">
+              <i class="bi bi-geo-alt"></i>
+              <h3>Address</h3>
+              <address>{{contact_address}}</address>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="contact-phone">
+              <i class="bi bi-phone"></i>
+              <h3>Phone Number</h3>
+              <p><a href="tel:{{contact_phone_number}}">{{contact_phone_number}}</a></p>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="contact-email">
+              <i class="bi bi-envelope"></i>
+              <h3>Email</h3>
+              <p><a href="mailto:{{contact_email}}">{{contact_email}}</a></p>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="container mb-4">
+        <iframe
+          src="{{contact_maps}}"
+          height="450" style="border: 0; width: 100%" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      
+
+      </div>
+    </section>
+  </main>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+{% endblock content %}

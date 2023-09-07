@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/news.css' %}">
+{% endblock styles %}
+
+{% block topbar %}
+{% include 'includes/topbar.html' with topbar_email=topbar_email topbar_phone_number=topbar_phone_number topbar_socials=topbar_socials %}
+{% endblock topbar %}
+
+{% block content %}
+ <!-- Page content-->
+ <div class="container py-3">
+    <div class="row">
+        <!-- Blog entries-->
+        <div class="col-lg-11 mx-auto">
+            <div id="carouselExampleCaptions" class="carousel slide mb-4">
+                <div class="carousel-indicators">
+                    <div class="carousel-indicators">
+                        {% for  crousel in crousels %}
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{forloop.counter0}}" class="{% if forloop.first %}active {% else %} {% endif %}"  aria-label="Slide {{forloop.counter}}"></button>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="carousel-inner">
+                    {% for  crousel in crousels %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <div class="carousel-image">
+                                <img  src=" {% if crousel.news_image %} {{ crousel.news_image.url }} {% else %}{% endif %}" class="d-block w-100" style="max-height: 360px;" >
+                            </div>
+                            <div class="carousel-caption d-none d-md-block">
+                                <a href="{% url 'news:news-detail' id=crousel.id %}"><h3 class="fw-bolder h4 text-white">{{ crousel.news_title }}</h3></a>
+                                <p>{{crousel.created_at|date:"F y"}}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                  
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            <!-- Nested row for non-featured blog posts-->
+            <div class="row">
+                {% for news in newss %}
+                <div class="col-lg-4">
+                    <!-- Blog post-->
+                    <div class="card custom-card mb-4">
+                        <div class="card-body" style="display: flex; flex-direction: column;">
+                            {% if news.news_image %}
+                                <!-- Image -->
+                                {% if request.path == '/news/' %}
+                                    <a href="{% url 'news:news-detail' id=news.id %}">
+                                        <img class="card-img-top" src="{{ news.news_image.url }}" height="180px" />
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'news:news-detail-admin-preview' id=news.id %}">
+                                        <img class="card-img-top" src="{{ news.news_image.url }}" height="180px" />
+                                    </a>
+                                {% endif %}
+                            
+            
+                                <!-- Title -->
+                                {% if request.path == '/news/' %}
+                                    <a href="{% url 'news:news-detail' id=news.id %}" class="nav-link text-primary ">
+                                        <h2 class="card-title fw-semibold my-1 h4 mt-3">{{news.news_title|truncatechars:30}}</h2>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'news:news-detail-admin-preview' id=news.id %}" class="nav-link text-primary ">
+                                        <h2 class="card-title fw-semibold my-1 h4 mt-3">{{news.news_title|truncatechars:30}}</h2>
+                                    </a>
+                                {% endif %}
+                
+                                <!-- Date -->
+                                <div class="small text-muted my-2">{{news.created_at}}</div>
+                
+                                <!-- Description -->
+                                <p class="card-text" style="flex-grow: 1;">{{news.news_description|truncatechars:120}}</p>
+                
+                                <!-- Read More -->
+                                {% if request.path == '/news/' %}
+                                    <a class="btn btn-primary rounded-pill mt-auto" href="{% url 'news:news-detail' id=news.id %}"><i class="bi bi-book m-2"></i>Read More</a>
+                                {% else %}
+                                <a class="btn btn-primary rounded-pill mt-auto" href="{% url 'news:news-detail-admin-preview' id=news.id %}"><i class="bi bi-book m-2"></i>Read More</a>
+                                {% endif %}
+                            {% else %}
+                                <!-- Title -->
+                                {% if request.path == '/news/' %}
+                                <a href="{% url 'news:news-detail' id=news.id %}" class="nav-link text-primary ">
+                                    <h2 class="card-title fw-semibold my-1 h4">{{news.news_title|truncatechars:30}}</h2>
+                                </a>
+                                {% else %}
+                                    <a href="{% url 'news:news-detail-admin-preview' id=news.id %}" class="nav-link text-primary ">
+                                        <h2 class="card-title fw-semibold my-1 h4">{{news.news_title|truncatechars:30}}</h2>
+                                    </a>
+                                {% endif %}
+                
+                                <!-- Date -->
+                                <div class="small text-muted my-2">{{news.created_at}}</div>
+                
+                                <!-- Description -->
+                                <p class="card-text" style="flex-grow: 1;">{{news.news_description|truncatechars:300}}</p>
+                
+                                <!-- Read More -->
+                                {% if request.path == '/news/' %}
+                                    <a class="btn btn-primary rounded-pill mt-auto "  href="{% url 'news:news-detail' id=news.id %}"><i class="bi bi-book m-2"></i>Read More</a>
+                                {% else %}
+                                    <a class="btn btn-primary rounded-pill mt-auto" href="{% url 'news:news-detail-admin-preview' id=news.id %}"><i class="bi bi-book m-2"></i>Read more </a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% include 'includes/pagination.html' with queryset=newss custom_range=custom_range %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
