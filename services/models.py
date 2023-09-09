@@ -14,7 +14,7 @@ class MenuServices(models.Model):
     
 class Services(models.Model):
     title           = models.CharField(max_length=20)
-    description     = models.TextField(max_length=400)
+    description     = models.TextField()
     menu_services   = models.ManyToManyField(MenuServices)
     is_active    = models.BooleanField(default=False)
     created_at      = models.DateTimeField(auto_now_add=True,editable=False)

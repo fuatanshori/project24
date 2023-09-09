@@ -93,12 +93,17 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pln_nusantara_power',
+        'NAME': 'my_db',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': '1*Mysqladmin',
         'HOST': 'localhost',
-        'PORT': '3306',
-    }
+        'PORT': '3307',
+        "OPTION": {
+            "init_command": "SET default_storage_engine=INNODB",
+            'charset': 'utf8mb4',
+            "autocommit": True,
+        }
+    },
 }
 
 # Password validation
