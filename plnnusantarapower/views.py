@@ -19,7 +19,7 @@ def index(request):
     
 
     context = {
-        'intro_title': intro.title if intro else 'PLN Nusantara Power',
+        'intro_title': intro.title if intro else 'PLN Nusantara Power Pulang Pisau',
         'intro_description': intro.description if intro else 'Data Kosong',
         'intro_images': intro.image.all() if intro else '',
 
@@ -29,7 +29,7 @@ def index(request):
         'about_misi': about.misi if about else 'Misi Kosong Silahkan isi Terlebih Dahulu',
         'about_image': about.image if about else '',
 
-        'service_title': services.title if services else 'Service',
+        'service_title': services.title if services else 'Services',
         'service_description': services.description if services else 'Deskripsi Kosong',
         'service_menu_services': services.menu_services.all() if services else '',
 
@@ -41,7 +41,7 @@ def index(request):
         'contact_description': contact.description if contact else 'Deskripsi Kosong',
         'contact_address': contact.address if contact else 'Alamat Masih Kosong',
         'contact_phone_number': contact.phone_number if contact else None,
-        'contact_email': contact.email if contact else 'Email Masih Kosong',
+        'contact_email': contact.email if contact else None,
         'contact_maps': contact.maps if contact else maps_location,
 
         'lihat_berita_title': lihatberita.title if lihatberita else 'Lihat Berita Terbaru',        
